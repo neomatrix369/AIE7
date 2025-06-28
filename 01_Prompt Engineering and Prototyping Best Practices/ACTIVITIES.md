@@ -28,6 +28,8 @@
 
 Also see [Before-The-ai-engineer-challenge-av1ldonsw-manis-projects-6cdd8e65-vercel-app-2025-06-26-22_49_15.pdf](Before-The-ai-engineer-challenge-av1ldonsw-manis-projects-6cdd8e65-vercel-app-2025-06-26-22_49_15.pdf) document to see a few different tests performed while vibe checking the app before bringing any improvements to it and see [After-The-ai-engineer-challenge-neomatrix369-manis-projects-6cdd8e65-vercel-app-2025-06-27-00_02_03.pdf](After-The-ai-engineer-challenge-neomatrix369-manis-projects-6cdd8e65-vercel-app-2025-06-27-00_02_03.pdf).
 
+Finally, improving the `developer prompt` a bit more and asking it to also provide references or sources from where it got the information from (wherever possible), see this [version](References-After-The-ai-engineer-challenge-neomatrix369-manis-projects-6cdd8e65-vercel-app-2025-06-27-00_02_03.pdf).
+
 ##### 🧑‍🤝‍🧑❓ Discussion Question #1:
 
 What are some limitations of vibe checking as an evaluation tool?
