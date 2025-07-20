@@ -1,2 +1,8 @@
 .DS_Store
 .env
+.venv
+**/.ipynb_checkpoints/*
+*.json
+.nltk_data/
+DataRepository/
+content/
