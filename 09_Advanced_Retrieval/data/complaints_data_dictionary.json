@@ -1,0 +1,106 @@
+{
+  "dataset_info": {
+    "filename": "complaints.csv",
+    "total_records": 4547,
+    "description": "Consumer financial complaints dataset with detailed complaint information and company responses"
+  },
+  "fields": [
+    {
+      "field_name": "Date received",
+      "data_type": "Date (MM/DD/YY)",
+      "description": "Date when the complaint was received by the consumer protection agency"
+    },
+    {
+      "field_name": "Product",
+      "data_type": "String",
+      "description": "Primary financial product category (e.g., 'Student loan', 'Credit card', 'Mortgage')"
+    },
+    {
+      "field_name": "Sub-product",
+      "data_type": "String",
+      "description": "Specific subcategory of the financial product (e.g., 'Federal student loan servicing', 'Private student loan')"
+    },
+    {
+      "field_name": "Issue",
+      "data_type": "String",
+      "description": "Main category of the consumer's complaint (e.g., 'Dealing with your lender or servicer', 'Improper use of your report')"
+    },
+    {
+      "field_name": "Sub-issue",
+      "data_type": "String",
+      "description": "Specific subcategory of the issue (e.g., 'Trouble with how payments are being handled', 'Received bad information about your loan')"
+    },
+    {
+      "field_name": "Consumer complaint narrative",
+      "data_type": "Text",
+      "description": "Detailed description of the complaint written by the consumer (may contain redacted information marked with X's)"
+    },
+    {
+      "field_name": "Company public response",
+      "data_type": "String",
+      "description": "Public response from the company (often 'None' or brief explanations)"
+    },
+    {
+      "field_name": "Company",
+      "data_type": "String",
+      "description": "Name of the financial institution/company being complained about (e.g., 'Nelnet, Inc.', 'MOHELA')"
+    },
+    {
+      "field_name": "State",
+      "data_type": "String (2-char)",
+      "description": "U.S. state abbreviation where the consumer is located"
+    },
+    {
+      "field_name": "ZIP code",
+      "data_type": "String",
+      "description": "Consumer's ZIP code (may be partially redacted with X's for privacy)"
+    },
+    {
+      "field_name": "Tags",
+      "data_type": "String",
+      "description": "Special consumer categories or tags (e.g., 'Older American', 'Servicemember', or 'None')"
+    },
+    {
+      "field_name": "Consumer consent provided?",
+      "data_type": "String",
+      "description": "Indicates if consumer gave consent to publish their complaint ('Consent provided', 'Consent not provided')"
+    },
+    {
+      "field_name": "Submitted via",
+      "data_type": "String",
+      "description": "Method used to submit the complaint (e.g., 'Web', 'Phone', 'Referral')"
+    },
+    {
+      "field_name": "Date sent to company",
+      "data_type": "Date (MM/DD/YY)",
+      "description": "Date the complaint was forwarded to the company for response"
+    },
+    {
+      "field_name": "Company response to consumer",
+      "data_type": "String",
+      "description": "Type of response from company (e.g., 'Closed with explanation', 'Closed with relief')"
+    },
+    {
+      "field_name": "Timely response?",
+      "data_type": "String",
+      "description": "Whether company responded within required timeframe ('Yes', 'No')"
+    },
+    {
+      "field_name": "Consumer disputed?",
+      "data_type": "String",
+      "description": "Whether consumer disputed the company's response ('Yes', 'No', 'N/A')"
+    },
+    {
+      "field_name": "Complaint ID",
+      "data_type": "Integer",
+      "description": "Unique identifier for each complaint record"
+    }
+  ],
+  "notes": [
+    "Personal information is redacted with X's for privacy protection",
+    "The dataset contains 4,547 records (excluding header)",
+    "Most complaints in this sample relate to student loan servicing issues",
+    "Date format follows MM/DD/YY pattern",
+    "Many fields can contain 'None' or 'N/A' values when not applicable"
+  ]
+}
