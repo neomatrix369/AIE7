@@ -20,5 +20,7 @@ dependencies = [
     "ragas==0.2.10",
     "unstructured>=0.14.8",
     "nltk==3.8.1",
-    "pymupdf>=1.26.3"
+    "pymupdf>=1.26.3",
+    "matplotlib",
+    "seaborn"
 ]
