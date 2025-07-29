@@ -1,0 +1,7 @@
+Retriever,Correctness_Avg_Score,QA_Avg_Score,Helpfulness_Avg_Score,Empathy_Avg_Score,Avg_Latency_Sec,Total_Runs,Avg_Input_Tokens_Per_Run,Avg_Output_Tokens_Per_Run,Total_Cost,Total_Latency_Sec
+Bm25,0.9,0.0,0.667,0.0,0.0,30,3846.0,270.7,0.0039,0.0
+Contextual Compression,0.9,0.0,0.8,0.0,0.0,30,792.2333,83.5,0.0009,0.0
+Ensemble,0.867,0.0,0.9,0.0,0.0,30,17408.7667,356.8667,0.0163,0.0
+Naive,0.833,0.0,0.9,0.033,0.0,30,7877.3,308.2667,0.0076,0.0
+Parent Document,0.833,0.0,0.833,0.0,0.0,30,4256.2,290.3667,0.0044,0.0
+Multi Query,0.828,0.0,0.867,0.033,0.0,30,11298.5667,326.1667,0.0108,0.0

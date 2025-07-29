@@ -1,0 +1,7 @@
+Retriever,Total_Runs,Avg_Cost_Per_Run,Total_Cost,Total_Input_Tokens,Total_Output_Tokens,Avg_Input_Tokens_Per_Run,Avg_Output_Tokens_Per_Run,Avg_Latency_Sec,Total_Latency_Sec,QA_Avg_Score,QA_Success_Rate,QA_Min,QA_Max,Helpfulness_Avg_Score,Helpfulness_Success_Rate,Helpfulness_Min,Helpfulness_Max,Empathy_Avg_Score,Empathy_Success_Rate,Empathy_Min,Empathy_Max,Correctness_Avg_Score,Correctness_Success_Rate,Correctness_Min,Correctness_Max
+Bm25,30,0.000132,0.003949,115380,8121,3846.0,270.7,0.0,0.0,0.0,0.0,0.0,0.0,0.667,0.667,0,1,0.0,0.0,0,0,0.9,0.9,0,1
+Contextual Compression,30,2.9e-05,0.000863,23767,2505,792.233333,83.5,0.0,0.0,0.0,0.0,0.0,0.0,0.8,0.8,0,1,0.0,0.0,0,0,0.9,0.9,0,1
+Ensemble,30,0.000544,0.01631,522263,10706,17408.766667,356.866667,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0,1,0.0,0.0,0,0,0.867,0.867,0,1
+Naive,30,0.000255,0.007644,236319,9248,7877.3,308.266667,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0,1,0.033,0.033,0,1,0.833,0.833,0,1
+Parent Document,30,0.000145,0.004353,127686,8711,4256.2,290.366667,0.0,0.0,0.0,0.0,0.0,0.0,0.833,0.833,0,1,0.0,0.0,0,0,0.833,0.833,0,1
+Multi Query,30,0.000359,0.010756,338957,9785,11298.566667,326.166667,0.0,0.0,0.0,0.0,0.0,0.0,0.867,0.867,0,1,0.033,0.033,0,1,0.828,0.828,0,1
