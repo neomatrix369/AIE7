@@ -1,7 +1,7 @@
 """
-Evaluation Results Caching Utility
+Evaluation Result Caching Utility
 
-This module provides utilities to cache and load raw evaluate() results
+This module provides utilities to cache and load raw evaluate() result
 to avoid re-running expensive evaluations.
 """
 
@@ -51,10 +51,10 @@ def _extract_serializable_data(obj) -> Any:
     # Handle objects with specific attributes we care about
     serializable_attrs = {}
     
-    # Common attributes to extract from evaluation results
+    # Common attributes to extract from evaluation result
     attrs_to_check = [
         'experiment_id', 'experiment_name', 'results', 'examples', '_results',
-        'total_cost', 'start_time', 'end_time', 'run_id', 'evaluation_results',
+        'total_cost', 'start_time', 'end_time', 'run_id', 'evaluation_result',
         'feedback', 'scores', 'run', 'data', 'value', 'score', 'avg'
     ]
     
@@ -79,11 +79,11 @@ def _extract_serializable_data(obj) -> Any:
     return str(obj)
 
 
-def save_evaluation_results(evaluation_results: Dict[str, Any], cache_file: str = "evaluation_results_cache.pkl") -> bool:
-    """Save raw evaluate() results to cache file
+def save_evaluation_result(evaluation_result: Any, cache_file: str = "evaluation_result_cache.pkl") -> bool:
+    """Save raw evaluate() result to cache file
     
     Args:
-        evaluation_results: Dictionary where keys are retriever names and values are evaluate() results
+        evaluation_result: value is evaluate() result
         cache_file: Path to cache file
         
     Returns:
@@ -93,17 +93,13 @@ def save_evaluation_results(evaluation_results: Dict[str, Any], cache_file: str 
         print(f"🔄 Extracting serializable data from evaluation results...")
         
         # Extract serializable data from evaluation results
-        serializable_results = {}
-        for retriever_name, result in evaluation_results.items():
-            print(f"   Processing {retriever_name}...")
-            serializable_results[retriever_name] = _extract_serializable_data(result)
+        print("   Processing retriever...")
+        serializable_result = _extract_serializable_data(evaluation_result)
         
         cache_data = {
-            'evaluation_results': serializable_results,
+            'evaluation_result': serializable_result,
             'metadata': {
                 'save_time': datetime.now().isoformat(),
-                'retriever_count': len(evaluation_results),
-                'retrievers': list(evaluation_results.keys()),
                 'is_serialized': True,
                 'cache_version': '1.0'
             }
@@ -126,7 +122,6 @@ def save_evaluation_results(evaluation_results: Dict[str, Any], cache_file: str 
         print(f"✅ Evaluation results cached to: {cache_file}")
         print(f"📋 JSON version saved to: {json_file}")
         print(f"📋 Metadata saved to: {json_meta_file}")
-        print(f"📊 Cached {len(evaluation_results)} retriever evaluations")
         
         return True
         
@@ -137,14 +132,14 @@ def save_evaluation_results(evaluation_results: Dict[str, Any], cache_file: str 
         return False
 
 
-def load_evaluation_results(cache_file: str = "evaluation_results_cache.pkl") -> Optional[Dict[str, Any]]:
-    """Load raw evaluate() results from cache file
+def load_evaluation_result(cache_file: str = "evaluation_result_cache.pkl") -> Optional[Any]:
+    """Load raw evaluate() result from cache file
     
     Args:
         cache_file: Path to cache file
         
     Returns:
-        Dictionary of evaluation results if successful, None otherwise
+        A single evaluation result if successful, None otherwise
     """
     if not os.path.exists(cache_file):
         print(f"❌ Cache file not found: {cache_file}")
@@ -154,23 +149,19 @@ def load_evaluation_results(cache_file: str = "evaluation_results_cache.pkl") ->
         with open(cache_file, 'rb') as f:
             cache_data = pickle.load(f)
         
-        evaluation_results = cache_data['evaluation_results']
+        evaluation_result = cache_data['evaluation_result']
         metadata = cache_data.get('metadata', {})
         
         print(f"✅ Loaded evaluation results from: {cache_file}")
-        print(f"📅 Cached on: {metadata.get('save_time', 'Unknown')}")
-        print(f"📊 Found {len(evaluation_results)} retriever evaluations:")
-        for retriever in evaluation_results.keys():
-            print(f"   - {retriever}")
-        
-        return evaluation_results
+        print(f"📅 Cached on: {metadata.get('save_time', 'Unknown')}")        
+        return evaluation_result
         
     except Exception as e:
         print(f"❌ Failed to load evaluation results: {e}")
         return None
 
 
-def check_cache_exists(cache_file: str = "evaluation_results_cache.pkl") -> bool:
+def check_cache_exists(cache_file: str = "evaluation_result_cache.pkl") -> bool:
     """Check if evaluation cache file exists
     
     Args:
@@ -182,31 +173,31 @@ def check_cache_exists(cache_file: str = "evaluation_results_cache.pkl") -> bool
     return os.path.exists(cache_file)
 
 
-def get_cached_evaluation_or_run(evaluation_function, cache_file: str = "evaluation_results_cache.pkl", force_rerun: bool = False) -> Dict[str, Any]:
+def get_cached_evaluation_or_run(evaluation_function, cache_file: str = "evaluation_result_cache.pkl", force_rerun: bool = False) -> Dict[str, Any]:
     """Get cached evaluation results or run evaluation function
     
     Args:
-        evaluation_function: Function that returns evaluation_results dict when called
+        evaluation_function: Function that returns evaluation_result object when called
         cache_file: Path to cache file
         force_rerun: If True, ignore cache and run evaluation function
         
     Returns:
-        Dictionary of evaluation results
+        Dictionary of evaluation result
     """
     # Try to load from cache first (unless forced to rerun)
     if not force_rerun:
-        cached_results = load_evaluation_results(cache_file)
-        if cached_results is not None:
-            return cached_results
+        cached_result = load_evaluation_result(cache_file)
+        if cached_result is not None:
+            return cached_result
     
     # Run evaluation function
-    print("🚀 Running fresh evaluations...")
-    evaluation_results = evaluation_function()
+    print("🚀 Running fresh evaluation...")
+    evaluation_result = evaluation_function()
     
-    # Cache the results
-    save_evaluation_results(evaluation_results, cache_file)
+    # Cache the result
+    save_evaluation_result(evaluation_result, cache_file)
     
-    return evaluation_results
+    return evaluation_result
 
 
 # Example usage functions
@@ -216,48 +207,33 @@ def create_usage_example():
     example_code = '''
 # Example usage in notebook:
 
-from evaluation_cache import save_evaluation_results, load_evaluation_results, get_cached_evaluation_or_run
-
-# Method 1: Manual caching after running evaluations
-evaluation_results = {
-    'naive_retrieval_chain': naive_result,
-    'bm25_retrieval_chain': bm25_result,
-    # ... other results
-}
+from evaluation_cache import save_evaluation_result, load_evaluation_result, get_cached_evaluation_or_run
 
 # Save to cache
-save_evaluation_results(evaluation_results, "my_evaluations.pkl")
+save_evaluation_result(evaluation_result, "my_evaluation.pkl")
 
 # Later, load from cache
-cached_results = load_evaluation_results("my_evaluations.pkl")
-if cached_results:
-    # Use cached results with existing analysis code
-    from performance_analysis_from_evaluate import analyze_from_evaluate_results
-    analyzer = analyze_from_evaluate_results(cached_results)
+cached_result = load_evaluation_result("my_evaluation.pkl")
+if cached_result:
+    # Use cached result with existing analysis code
+    from performance_analysis_from_evaluate import analyze_from_evaluate_result
+    analyzer = analyze_from_evaluate_result(cached_result)
 
-# Method 2: Smart caching with function wrapper
-def run_all_evaluations():
-    """Function that runs all evaluations and returns results dict"""
-    # Your evaluation code here
-    return {
-        'naive_retrieval_chain': evaluate(naive_chain, dataset, evaluators),
-        'bm25_retrieval_chain': evaluate(bm25_chain, dataset, evaluators),
-        # ... other evaluations
-    }
+run_evaluation = ...
 
-# This will use cache if available, otherwise run evaluations
-evaluation_results = get_cached_evaluation_or_run(run_all_evaluations, "evaluations.pkl")
+# This will use cache if available, otherwise run evaluation
+evaluation_result = get_cached_evaluation_or_run(run_evaluation, "evaluation.pkl")
 
 # Use with existing analysis code
-analyzer = analyze_from_evaluate_results(evaluation_results)
+analyzer = analyze_from_evaluate_result(evaluation_result)
 '''
     
     return example_code
 
 
 if __name__ == "__main__":
-    print("Evaluation Results Caching Utility")
+    print("Evaluation Result Caching Utility")
     print("=" * 40)
-    print("\nThis utility helps cache expensive evaluate() results.")
+    print("\nThis utility helps cache expensive evaluate() result.")
     print("\nUsage example:")
     print(create_usage_example())

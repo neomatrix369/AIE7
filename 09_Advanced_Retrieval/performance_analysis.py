@@ -252,51 +252,6 @@ class SimpleRetrieverAnalyzer:
         
         return rankings
     
-    def print_summary(self):
-        """Print a quick summary"""
-        df = self.get_results_dataframe()
-        
-        if df.empty:
-            print("No data available")
-            return
-        
-        print("\n" + "="*80)
-        print("RETRIEVER PERFORMANCE SUMMARY")
-        print("="*80)
-        
-        # Display full dataframe
-        pd.set_option('display.max_columns', None)
-        pd.set_option('display.width', None)
-        pd.set_option('display.max_colwidth', None)
-        
-        print("\n📊 COMPLETE RESULTS:")
-        print(df.to_string(index=False))
-        
-        # Show rankings
-        rankings = self.get_rankings()
-        
-        print("\n🏆 RANKINGS:")
-        print("-" * 40)
-        
-        for rank_name, rank_df in rankings.items():
-            if not rank_df.empty:
-                print(f"\n{rank_name.replace('_', ' ')}:")
-                for i, row in rank_df.iterrows():
-                    print(f"  {rank_df.index.get_loc(i) + 1}. {row['Retriever']}: {row.iloc[1]}")
-        
-        # Best performers summary
-        print("\n🎯 BEST PERFORMERS:")
-        print("-" * 40)
-        
-        for metric in ['Correctness_Avg_Score', 'Helpfulness_Avg_Score', 'Avg_Cost_Per_Run', 'Avg_Latency_Sec']:
-            if metric in df.columns:
-                if 'Cost' in metric or 'Latency' in metric:
-                    best_row = df.loc[df[metric].idxmin()]
-                    print(f"Best {metric.replace('_', ' ')}: {best_row['Retriever']} ({best_row[metric]})")
-                else:
-                    best_row = df.loc[df[metric].idxmax()]
-                    print(f"Best {metric.replace('_', ' ')}: {best_row['Retriever']} ({best_row[metric]})")
-
 def analyze_retrievers(evaluation_results: Dict[str, Any]) -> pd.DataFrame:
     """Accept both dict of objects OR dict of dicts
     
@@ -321,27 +276,4 @@ def analyze_retrievers(evaluation_results: Dict[str, Any]) -> pd.DataFrame:
     # Get DataFrame
     df = analyzer.get_results_dataframe()
     
-    # Print summary
-    analyzer.print_summary()
-    
     return df
-
-# Example usage
-if __name__ == "__main__":
-    # Example usage:
-    # evaluation_results = {
-    #     'naive_retrieval_chain': naive_result,
-    #     'bm25_retrieval_chain': bm25_result,
-    #     'semantic_retrieval_chain': semantic_result
-    # }
-    # 
-    # df = analyze_retrievers(evaluation_results)
-    # 
-    # # Access the DataFrame for further analysis
-    # print(df.head())
-    # 
-    # # Save to CSV
-    # df.to_csv('retriever_performance.csv', index=False)
-    
-    print("Simple Retriever Performance Analyzer")
-    print("Usage: df = analyze_retrievers(evaluation_results)")
