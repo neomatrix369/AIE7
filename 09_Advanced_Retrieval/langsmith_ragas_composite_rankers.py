@@ -39,26 +39,33 @@ class RetrieverRanker:
                 
             ragas_row = ragas_row.iloc[0]
             
-            # Quality Score (0-100)
+            # Quality Score (0-100) - Optimized for new metrics
             langsmith_quality = (ls_row['Helpfulness_Avg_Score'] * 0.5 + ls_row['Correctness_Avg_Score'] * 0.5) * 100
+            
+            # RAGAS quality with new metrics - weighted by discriminative power and importance
             ragas_quality = (
-                ragas_row['context_recall'] * 0.25 +
-                ragas_row['faithfulness'] * 0.25 +
-                ragas_row['factual_correctness'] * 0.20 +
-                ragas_row['answer_relevancy'] * 0.20 +
-                ragas_row['context_entity_recall'] * 0.10
+                ragas_row['context_recall'] * 0.30 +                              # Core retrieval quality
+                ragas_row['faithfulness'] * 0.25 +                                # Answer faithfulness  
+                ragas_row['llm_context_precision_with_reference'] * 0.25 +        # Precision with ground truth
+                ragas_row['context_entity_recall'] * 0.15 +                       # Entity capture
+                ragas_row['llm_context_precision_without_reference'] * 0.05       # Additional precision signal
             ) * 100
-            quality_score = langsmith_quality * 0.4 + ragas_quality * 0.6
+            
+            quality_score = langsmith_quality * 0.35 + ragas_quality * 0.65  # Increased RAGAS weight due to richer metrics
             
             # Efficiency Score (0-100) - lower cost = higher score
             max_cost = max(self.langsmith_df['Avg_Cost_Per_Run'].max(), self.ragas_df['Avg_Cost_Per_Run'].max())
             avg_cost = (ls_row['Avg_Cost_Per_Run'] + ragas_row['Avg_Cost_Per_Run']) / 2
             efficiency_score = (1 - (avg_cost / max_cost)) * 100
             
-            # Reliability Score (0-100)
+            # Reliability Score (0-100) - Enhanced with new metrics
             reliability_ls = (ls_row['Helpfulness_Success_Rate'] * 0.5 + ls_row['Correctness_Success_Rate'] * 0.5) * 100
-            noise_sensitivity_score = (1 - ragas_row['noise_sensitivity_relevant']) * 100
-            reliability_score = reliability_ls * 0.5 + noise_sensitivity_score * 0.5
+            
+            # Noise sensitivity (lower = better, so invert) + consistency bonus for high precision
+            noise_robustness = (1 - ragas_row['noise_sensitivity_relevant']) * 100
+            precision_consistency = ragas_row['llm_context_precision_without_reference'] * 100  # High baseline precision = reliable
+            
+            reliability_score = reliability_ls * 0.4 + noise_robustness * 0.4 + precision_consistency * 0.2
             
             # Composite Score
             composite_score = (
@@ -77,7 +84,10 @@ class RetrieverRanker:
                 'ls_correctness': ls_row['Correctness_Avg_Score'],
                 'ragas_recall': ragas_row['context_recall'],
                 'ragas_faithfulness': ragas_row['faithfulness'],
-                'ragas_correctness': ragas_row['factual_correctness'],
+                'ragas_precision_with_ref': ragas_row['llm_context_precision_with_reference'],
+                'ragas_precision_without_ref': ragas_row['llm_context_precision_without_reference'],
+                'ragas_entity_recall': ragas_row['context_entity_recall'],
+                'ragas_noise_sensitivity': ragas_row['noise_sensitivity_relevant'],
                 'avg_cost': round((ls_row['Avg_Cost_Per_Run'] + ragas_row['Avg_Cost_Per_Run']) / 2, 6)
             })
             
@@ -93,7 +103,8 @@ class RetrieverRanker:
     def get_detailed_metrics_table(self):
         """Get detailed metrics comparison table"""
         return self.results_df[['retriever', 'ls_helpfulness', 'ls_correctness', 'ragas_recall', 
-                               'ragas_faithfulness', 'ragas_correctness', 'avg_cost', 'composite_score']]
+                               'ragas_faithfulness', 'ragas_precision_with_ref', 'ragas_precision_without_ref',
+                               'ragas_entity_recall', 'ragas_noise_sensitivity', 'avg_cost', 'composite_score']]
     
     def get_category_leaders_table(self):
         """Get best performer in each category"""
