@@ -11,7 +11,7 @@ async def main():
         result = await client.call_tool("web_search", {"query": "What is the capital of France?"})
         print(f"Result: {result}")
         print()
-        result = await client.call_tool("country_info", {"country_name": "UK"})
+        result = await client.call_tool("country_info", {"country_name": "United Kingdom"})
         print("Result:")
         pprint(result)
         print()
