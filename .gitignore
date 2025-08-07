@@ -1,2 +1,6 @@
 .DS_Store
 .env
+
+.nltk_data/
+.resources/
+**/DataRespository/

@@ -3,42 +3,91 @@
      height="auto"/>
 </p>
 
-## <h1 align="center" id="heading">Session 13: MCP</h1>
+## <h1 align="center" id="heading">AI Makerspace: MCP Session Repo for Session 13</h1>
 
-### [Quicklinks](https://github.com/AI-Maker-Space/AIE7/00_AIM_Quicklinks)
+This project is a demonstration of the MCP (Model Context Protocol) server, which utilizes the Tavily API for web search capabilities. The server is designed to run in a standard input/output (stdio) transport mode.
 
-| 🤓 Pre-work | 📰 Session Sheet | ⏺️ Recording     | 🖼️ Slides        | 👨‍💻 Repo         | 📝 Homework      | 📁 Feedback       |
-|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|
-| [Session 13: Pre-Work](https://www.notion.so/Session-13-Model-Context-Protocol-21dcd547af3d8098a3dac429f497fc7e?source=copy_link#246cd547af3d802b9dc4eeeed0258530)| [Session 13: MCP](https://www.notion.so/Session-13-Model-Context-Protocol-21dcd547af3d8098a3dac429f497fc7e) | [Recording!](https://us02web.zoom.us/rec/share/46vVCo41EMXBTyG8_Td_Z1o-AoiAZNI2xsM9m8QJie4z3xkbNSNN3LvaOTRzqp0d.IQceRLjpIqBUvmUE) ($u5Ck!XE) | [Session 13 Slides]() | You are here! | [Session 13 Assignment: MCP](https://forms.gle/4YubRsq4PE94f42bA) | [AIE7 Feedback8/5](https://forms.gle/FPpihp8fPubWE56UA)
+## Project Overview
 
-# Build 🏗️
+The MCP server is set up to handle web search queries using the Tavily API. It is built with the following key components:
 
-First, let's clone the MCP Session repository.
+- **TavilyClient**: A client for interacting with the Tavily API to perform web searches.
+
+## Prerequisites
+
+- Python 3.13 or higher
+- A valid Tavily API key
+
+## ⚠️NOTE FOR WINDOWS:⚠️
+
+You'll need to install this on the *Windows* side of your OS. 
+
+This will require getting two CLI tool for Powershell, which you can do as follows:
+
+- `winget install astral-sh.uv`
+- `winget install --id Git.Git -e --source winget`
+
+After you have those CLI tools, please open Cursor *into Windows*.
+
+Then, you can clone the repository using the following command in your Cursor terminal:
 
 ```bash
-cd ~
-git clone git@github.com:AI-Maker-Space/AIE7-MCP-Session.git
+git clone https://AI-Maker-Space/AIE7-MCP-Session.git
 ```
 
-Next, we're going to add our own tool to the flow - this will be achieved through adding tools in the `server.py`.
+After that, you can follow from Step 2. below!
 
-That's it, that's all folks!
+## Installation
 
-# Ship 🚢
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
 
-- 5min. Loom Video showcasing the tool being used by your MCP Client (Cursor, in this case!)
+2. **Configure environment variables**:
+Copy the `.env.sample` to `.env` and add your Tavily API key:
+   ```
+   TAVILY_API_KEY=your_api_key_here
+   ```
 
-# Share 🚀
-- Walk through your app and explain what you've completed in the Loom video
-- Make a social media post about your final application and tag @AIMakerspace
-- Share 3 lessons learned
-- Share 3 lessons not learned
+3. 🏗️ **Add a new tool to your MCP Server** 🏗️
 
-# Submitting Your Homework
+Create a new tool in the `server.py` file, that's it!
 
-Follow these steps to prepare and submit your homework assignment:
-1. Record a Loom video reviewing the content of your completed notebooks
-2. Complete your Homework Submission Form, include all of the following:
-    + The URL to your Loom Video
-    + Your _Three Lessons Learned / Not Yet Learned_
-    + The URLs to any social media posts (LinkedIn, X, Discord, etc.) ⬅️ _easy Extra Credit points!_
+## Running the MCP Server
+
+To start the MCP server, you will need to add the following to your MCP Profile in Cursor:
+
+> NOTE: To get to your MCP config. you can use the Command Pallete (CMD/CTRL+SHIFT+P) and select "View: Open MCP Settings" and replace the contents with the JSON blob below.
+
+```
+{
+    "mcpServers":  {
+        "mcp-server": {
+            "command" : "uv",
+            "args" : ["--directory", "/PATH/TO/REPOSITORY", "run", "server.py"]
+        }
+    }
+}
+```
+
+The server will start and listen for commands via standard input/output.
+
+## Usage
+
+The server provides a `web_search` tool that can be used to search the web for information about a given query. This is achieved by calling the `web_search` function with the desired query string.
+
+## Activities: 
+
+There are a few activities for this assignment!
+
+### 🏗️ Activity #1: 
+
+Choose an API that you enjoy using - and build an MCP server for it!
+
+### 🏗️ Activity #2: 
+
+Build a simple LangGraph application that interacts with your MCP Server.
+
+You can find details [here](https://github.com/langchain-ai/langchain-mcp-adapters)!
