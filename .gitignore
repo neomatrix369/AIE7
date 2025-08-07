@@ -1,2 +1,6 @@
 .DS_Store
 .env
+
+.nltk_data/
+.resources/
+04_Production_RAG/DataRepository/
