@@ -4,3 +4,6 @@
 .nltk_data/
 .resources/
 **/DataRespository/
+cache
+__pycache__/
+**/.ipynb_checkpoints/**
