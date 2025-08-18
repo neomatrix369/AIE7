@@ -8,6 +8,7 @@ from .caching import CacheBackedEmbeddings, setup_llm_cache
 from .rag import ProductionRAGChain
 from .models import get_openai_model
 from .agents_with_guardrails import create_safe_langgraph_agent, invoke_safe_agent
+from .helpfulness_agents import create_langgraph_helpfulness_agent
 
 __version__ = "0.1.0"
 __all__ = [
@@ -17,6 +18,7 @@ __all__ = [
     "ProductionRAGChain",
     "get_openai_model",
     "create_safe_langgraph_agent",
-    "invoke_safe_agent"
+    "invoke_safe_agent",
+    "create_langgraph_helpfulness_agent"
 ]
 
