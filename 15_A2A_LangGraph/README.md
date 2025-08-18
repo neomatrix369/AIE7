@@ -83,13 +83,46 @@ Build a LangGraph Graph to "use" your application.
 
 Do this by creating a Simple Agent that can make API calls to the 🤖Agent Node above through the A2A protocol. 
 
+### ✅ Answer:
+
+See [langgraph_a2a_client.py](langgraph_a2a_client.py), it can he run by first starting the a2a server/host (if it is not yet running):
+```bash
+uv run python -m app
+```
+
+In another terminal, run the below:
+```bash
+uv run python langgraph_a2a_client.py
+```
+
 ### ❓ Question #1:
 
 What are the core components of an `AgentCard`?
 
+### ✅ Answer:
+
+The core components of the AgentCard is as follows:
+- Basic Information: Agent’s name (name), description (description), service URL (url), provider information (provider), version (version), documentation link (documentationUrl).
+- Capabilities: Optional capabilities supported by the Agent, such as support for streaming (streaming), push notifications (pushNotifications), state transition history (stateTransitionHistory).
+- Authentication Requirements: Authentication schemes required by the Agent (e.g., Basic, Bearer) and credential information.
+- Default Interaction Modes: Default input (defaultInputModes) and output (defaultOutputModes) MIME types supported by the Agent across all skills.
+- Skills: Specific capability units that the Agent can perform. Each skill includes:
+  - Unique identifier (id)
+  - Name (name)
+  - Description (description)
+  - Tags (tags)
+  - Examples (examples)
+  - Skill-specific input/output modes (inputModes/outputModes) (if different from default).
+
 ### ❓ Question #2:
 
 Why is A2A (and other such protocols) important in your own words?
+
+### ✅ Answer:
+
+A2A and other protocols are enabling direct and automated communication between two or more systems, allow data exchange and execution of code, reducing errors.
+
+For e.g. in ecommerce systems, A2A allows two or more systems to connect and interact with each other over payment, inventory, etc...
 
 ### 🚧 Advanced Build:
 
